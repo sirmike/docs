@@ -42,7 +42,7 @@ When we have our "server" we can easily debug HTTP requests. We will tell our "s
 
 `echo "Simple response" | nc -l 3000`
 
-It's not a full HTTP response but simple enough to make it work. We're more interested in a request itself, than a response now. And we're programmers so we use tools carefully crafted for http requests. Let's do that with cURL:
+It's not a full HTTP response but simple enough to make it work. We're more interested in a request itself, than a response now. And we're programmers so we use tools carefully crafted for http requests. Let's do that with (cURL)[https://curl.haxx.se]:
 
 `curl http://localhost:3000`
 
@@ -53,12 +53,49 @@ GET / HTTP/1.1
 Host: localhost:3000
 User-Agent: curl/7.54.0
 Accept: */*
+
 ```
 
-Cool, now we know how cURL does that. Don't worry if it looks cryptic, we'll cover the details in the next article.
+Cool, now we know how cURL does that. Don't worry if it looks cryptic. HTTP is a request / response stateless, protocol. It means that a client (our cURL) submits data to a server (listening nc process in our case). A server returns a message and the connection is closed. Simple.
+
+`GET / HTTP/1.1` - Here we have 3 pieces of data. A method `GET`, a resource `/` and a protocol version `HTTP/1.1`.
+
+According to [RFC of Hypertext Transfer Protocol -- HTTP/1.1](https://tools.ietf.org/html/rfc2616#page-53):
+
+```
+The GET method means retrieve whatever information (in the form of an entity) is identified by the Request-URI. If the Request-URI refers to a data-producing process, it is the produced data which shall be returned as the entity in the response and not the source text of the process, unless that text happens to be the output of the process.
+```
+
+Well, in a few words it means that we want to `GET` a resource `/` using protocol version `1.1` :)
+
+Then we got so called _http headers_. `Host` is interesting, remember it as we will use it in one of next article in this series. For now, we should know that it is mandatory in `HTTP 1.1` and is needed for a web server (like Nginx or Apache) to distingush between different domains hosted on the same IP address.
+
+`User-Agent` and `Accept` headers are optional. They describe client name and content types that a client is able to understand.
+
+Ok, but what about a response. Our `Simple response` string is not a proper HTTP response. cURL will not complain but when you try to use an internet browser, it probably will not render anything. Could be just a connection error.
+
+Here is how proper HTTP response should look like:
+
+```
+HTTP/1.1 200 OK
+Content-Length: 3
+
+Foo
+```
+
+Again `HTTP/1.1` is a protocol version, and `200 OK` is a standard response for successful HTTP requests. Look at the (Wikipedia)[https://en.wikipedia.org/wiki/List_of_HTTP_status_codes] or to an (RFC 2616)[https://tools.ietf.org/html/rfc2616#section-10] for more.
+
+`Content-Length` header in this case informs a client that after first blank line after headers list, there will be 3 octets (which is any 8-bit sequence) of data. Now when you use a real browser you'll get your response and no errors.
+
+So run our server:
+
+`echo "HTTP/1.0 200 OK\r\nContent-Length: 3\r\n\r\nFoo" | nc -l 3000`
+
+And test it pointing your favourite browser to `http://localhost:3000`. You should see beautiful... `Foo` "webpage";)
 
 # Credits
 
 * http://nc110.sourceforge.net - Netcat homepage
 * https://en.wikipedia.org/wiki/Netcat - What Netcat can do in a nutshell
 * https://jvns.ca/blog/2013/10/01/day-2-netcat-fun/ - Fantastic place for getting knowledge about programming and operating systems, of one of my favourite bloggers, Julia Evans
+* https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol - Brief description of HTTP
