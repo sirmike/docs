@@ -42,7 +42,7 @@ When we have our "server" we can easily debug HTTP requests. We will tell our "s
 
 `echo "Simple response" | nc -l 3000`
 
-It's not a full HTTP response but simple enough to make it work. We're more interested in a request itself, than a response now. And we're programmers so we use tools carefully crafted for http requests. Let's do that with (cURL)[https://curl.haxx.se]:
+It's not a full HTTP response but simple enough to make it work. We're more interested in a request itself, than a response now. And we're programmers so we use tools carefully crafted for http requests. Let's do that with [cURL](https://curl.haxx.se):
 
 `curl http://localhost:3000`
 
@@ -83,7 +83,7 @@ Content-Length: 3
 Foo
 ```
 
-Again `HTTP/1.1` is a protocol version, and `200 OK` is a standard response for successful HTTP requests. Look at the (Wikipedia)[https://en.wikipedia.org/wiki/List_of_HTTP_status_codes] or to an (RFC 2616)[https://tools.ietf.org/html/rfc2616#section-10] for more.
+Again `HTTP/1.1` is a protocol version, and `200 OK` is a standard response for successful HTTP requests. Look at the [Wikipedia](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) or to an [RFC 2616](https://tools.ietf.org/html/rfc2616#section-10) for more.
 
 `Content-Length` header in this case informs a client that after first blank line after headers list, there will be 3 octets (which is any 8-bit sequence) of data. Now when you use a real browser you'll get your response and no errors.
 
