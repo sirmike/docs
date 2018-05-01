@@ -62,7 +62,7 @@ Cool, now we know how cURL does that. Don't worry if it looks cryptic. HTTP is a
 
 According to [RFC of Hypertext Transfer Protocol -- HTTP/1.1](https://tools.ietf.org/html/rfc2616#page-53):
 
-_The GET method means retrieve whatever information (in the form of an entity) is identified by the Request-URI. If the Request-URI refers to a data-producing process, it is the produced data which shall be returned as the entity in the response and not the source text of the process, unless that text happens to be the output of the process._
+> The GET method means retrieve whatever information (in the form of an entity) is identified by the Request-URI. If the Request-URI refers to a data-producing process, it is the produced data which shall be returned as the entity in the response and not the source text of the process, unless that text happens to be the output of the process.
 
 Well, in a few words it means that we want to `GET` a resource `/` using protocol version `1.1` :)
 
